@@ -9,8 +9,14 @@ import PropTypes from "prop-types";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import LogiDataRow from "./LogiDataRow";
+import { Paper } from "@material-ui/core";
 
 const style = theme => ({
+  root: {
+    width: "100%",
+    marginTop: theme.spacing.unit * 3,
+    overflowX: "auto"
+  },
   table: {
     minWidth: 700
   }
@@ -73,75 +79,85 @@ class LogiDataTable extends Component {
   render() {
     const { classes, columns, dataRows } = this.props;
     return (
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            {this.props.allowEdit || this.props.allowDelete ? (
-              <TableCell>
-                {this.props.allowAddNew ? (
-                  <AddButton onExecute={() => this.addingNewRecord()} />
-                ) : null}
-              </TableCell>
-            ) : null}
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              {this.props.allowEdit || this.props.allowDelete ? (
+                <TableCell>
+                  {this.props.allowAddNew ? (
+                    <AddButton onExecute={() => this.addingNewRecord()} />
+                  ) : null}
+                </TableCell>
+              ) : null}
 
-            {columns
-              .filter(c => !c.isHidden)
-              .map(c => (
-                <TableCell key={c.accessor}>{c.header}</TableCell>
-              ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {this.state.newRecord ? (
-            <LogiDataRow
-              row={this.state.newRecord}
-              columns={columns}
-              index={-1}
-              newRow={true}
-              allowEdit={true}
-              saveChanges={addedCols => this.addNewRecord(addedCols)}
-              newRowCanceled={() => this.setState({ newRecord: undefined })}
-            />
-          ) : null}
-          {this.state.newlyAddedRecord.map((row, index) => (
-            <LogiDataRow
-              key={`N${index}`}
-              row={row}
-              columns={columns}
-              index={index}
-              allowEdit={false}
-              allowDelete={false}
-              allowAddNew={this.props.allowAddNew}
-              newlyAdded
-            />
-          ))}
-          {dataRows.map((row, index) => (
-            <LogiDataRow
-              key={index}
-              row={row}
-              columns={columns}
-              index={index}
-              allowEdit={this.props.allowEdit}
-              allowDelete={this.props.allowDelete}
-              allowAddNew={this.props.allowAddNew}
-              saveChanges={changedCols =>
-                this.props.saveChanges(row[this.props.keyAccessor], changedCols)
-              }
-              deleteRecord={() =>
-                this.props.deleteRecord(row[this.props.keyAccessor])
-              }
-            />
-          ))}
-        </TableBody>
-      </Table>
+              {columns
+                .filter(c => !c.isHidden)
+                .map(c => (
+                  <TableCell key={c.accessor}>{c.header}</TableCell>
+                ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {this.state.newRecord ? (
+              <LogiDataRow
+                row={this.state.newRecord}
+                columns={columns}
+                index={-1}
+                newRow={true}
+                allowEdit={true}
+                saveChanges={addedCols => this.addNewRecord(addedCols)}
+                newRowCanceled={() => this.setState({ newRecord: undefined })}
+              />
+            ) : null}
+            {this.state.newlyAddedRecord.map((row, index) => (
+              <LogiDataRow
+                key={`N${index}`}
+                row={row}
+                columns={columns}
+                index={index}
+                allowEdit={false}
+                allowDelete={false}
+                allowAddNew={this.props.allowAddNew}
+                newlyAdded
+              />
+            ))}
+            {dataRows.map((row, index) => (
+              <LogiDataRow
+                key={index}
+                row={row}
+                columns={columns}
+                index={index}
+                allowEdit={this.props.allowEdit}
+                allowDelete={this.props.allowDelete}
+                allowAddNew={this.props.allowAddNew}
+                saveChanges={changedCols =>
+                  this.props.saveChanges(
+                    row[this.props.keyAccessor],
+                    changedCols
+                  )
+                }
+                deleteRecord={() =>
+                  this.props.deleteRecord(row[this.props.keyAccessor])
+                }
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
     );
   }
 }
 
 LogiDataTable.propTypes = {
+  /** Array of Objects for the data rows that you want to display */
   dataRows: PropTypes.array.isRequired,
+  /** TODO: show Loading if true */
   loading: PropTypes.bool,
+  /** accessor (property/column name for the key column) */
   keyAccessor: PropTypes.string,
+  /** Array of Objects defining columns
+   * {header, accessor, dataType, isReadOnly, isHidden}*/
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       header: PropTypes.string.isRequired,
@@ -158,11 +174,25 @@ LogiDataTable.propTypes = {
       isHidden: PropTypes.bool //if not available will be shown
     })
   ),
+  /** Obvs */
   allowEdit: PropTypes.bool,
+  /** Obvs */
   allowDelete: PropTypes.bool,
+  /** Obvs */
   allowAddNew: PropTypes.bool,
+  /** LogiDataTable will call this function with the changedColumns {ColName, Value, sqlValue}
+   * and expects to get back a promise */
   saveChanges: PropTypes.func,
-  deleteRecord: PropTypes.func
+  /** LogiDataTable will call this function, sending it the key Value of the record to be deleted
+   * expects to receive back a promise resolving to true or false
+   */
+  deleteRecord: PropTypes.func,
+  /** LogiDataTable will call this function with new columns {ColName, Value, sqlValue}
+   * and expects to get back a promise which will resolve to
+   * {Success: True/False, Record: {optionally return the newly added record }
+   */
+  addRecord: PropTypes.func
 };
 
-export default withStyles(style)(LogiDataTable);
+//exporting like this so Docz will pick the props!
+export default (LogiDataTable = withStyles(style)(LogiDataTable));

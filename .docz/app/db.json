@@ -1,0 +1,32 @@
+{
+  "config": {
+    "title": "Logi Data Table",
+    "description": "logi-data-table React component",
+    "themeConfig": {},
+    "menu": [],
+    "ordering": "descending",
+    "version": "1.0.0",
+    "repository": null,
+    "native": false,
+    "codeSandbox": true
+  },
+  "entries": {
+    "docs/LogiDataTable.mdx": {
+      "name": "Logi Data Table",
+      "id": "249531597d8be5435e41e0a01fe63119",
+      "filepath": "docs/LogiDataTable.mdx",
+      "link": null,
+      "slug": "docs-logi-data-table",
+      "route": "/docs-logi-data-table",
+      "order": 0,
+      "menu": null,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "logi-data-table",
+          "value": "Logi Data Table"
+        }
+      ]
+    }
+  }
+}

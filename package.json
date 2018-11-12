@@ -17,9 +17,13 @@
     "start": "nwb serve-react-demo",
     "test": "nwb test-react",
     "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server"
+    "test:watch": "nwb test-react --server",
+    "docz:dev": "docz dev",
+    "docz:build": "docz build"
   },
-  "dependencies": {},
+  "dependencies": {
+
+  },
   "peerDependencies": {
     "react": "16.x",
     "@material-ui/core": "^3.x",
@@ -34,7 +38,8 @@
     "material-ui-pickers": "^1.x",
     "nwb": "0.23.x",
     "react": "^16.6.1",
-    "react-dom": "^16.6.1"
+    "react-dom": "^16.6.1",
+    "docz": "^0.12.9"
   },
   "author": "",
   "homepage": "",
