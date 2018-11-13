@@ -18,7 +18,7 @@ class Demo extends Component {
           Name: "Ash",
           Surname: "K",
           DOB: "1983-02-23",
-          TOB: "1983-02-23 03:00 PM",
+          TOB: "1983-02-23 15:00",
           IsMental: true,
           FavNumber: 7
         },
@@ -27,7 +27,7 @@ class Demo extends Component {
           Name: "Charlotte",
           Surname: "KG",
           DOB: "1986-03-24",
-          TOB: "1986-03-24 12:00 AM",
+          TOB: "1986-03-24 10:20",
           IsMental: false,
           FavNumber: 8
         }

@@ -1,12 +1,14 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
-import DateFnsUtils from "material-ui-pickers/utils/date-fns-utils";
-import MuiPickersUtilsProvider from "material-ui-pickers/MuiPickersUtilsProvider";
-import TimePicker from "material-ui-pickers/TimePicker";
-import DatePicker from "material-ui-pickers/DatePicker";
-import DateTimePicker from "material-ui-pickers/DateTimePicker";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "material-ui-pickers";
+import { TimePicker } from "material-ui-pickers";
+import { DatePicker } from "material-ui-pickers";
+import { DateTimePicker } from "material-ui-pickers";
 import Checkbox from "@material-ui/core/Checkbox";
+import ArrowForward from "@material-ui/icons/ArrowForward";
+import ArrowBack from "@material-ui/icons/ArrowBack";
 
 function EditableTableCell(props) {
   if (props.editMode && !props.readOnly) {
@@ -16,12 +18,15 @@ function EditableTableCell(props) {
         return (
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DatePicker
+              autoOk={true}
               value={
                 props.dataRow[`$E-${props.columnName}`] !== undefined
                   ? props.dataRow[`$E-${props.columnName}`]
                   : props.dataRow[props.columnName]
               }
               onChange={onDateInputChange}
+              rightArrowIcon={<ArrowForward />}
+              leftArrowIcon={<ArrowBack />}
             />
           </MuiPickersUtilsProvider>
         );
@@ -48,6 +53,8 @@ function EditableTableCell(props) {
                   : props.dataRow[props.columnName]
               }
               onChange={onDateInputChange}
+              rightArrowIcon={<ArrowForward />}
+              leftArrowIcon={<ArrowBack />}
             />
           </MuiPickersUtilsProvider>
         );
@@ -81,19 +88,25 @@ function EditableTableCell(props) {
     }
   } //read only mode
   else {
-    //if datetime wrap it in wrapper without allowing change for better render!
-    // if (["Date", "DateTime", "Time"].includes(props.dataType))
-    //   return (
-    //     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-    //       <DateTimePicker
-    //         value={props.dataRow[props.columnName]}
-    //         onChange={() => {
-    //           alert("Not allowed to edit");
-    //         }}
-    //       />
-    //     </MuiPickersUtilsProvider>
-    //   );
     switch (props.dataType) {
+      case "Date":
+        return (
+          <React.Fragment>
+            {new Date(props.dataRow[props.columnName]).toLocaleDateString()}
+          </React.Fragment>
+        );
+      case "DateTime":
+        return (
+          <React.Fragment>
+            {new Date(props.dataRow[props.columnName]).toLocaleString()}
+          </React.Fragment>
+        );
+      case "Time":
+        return (
+          <React.Fragment>
+            {new Date(props.dataRow[props.columnName]).toLocaleTimeString()}
+          </React.Fragment>
+        );
       case "Boolean":
         return <Checkbox checked={props.dataRow[props.columnName]} />;
       default:
