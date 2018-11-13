@@ -58,13 +58,21 @@ class LogiDataRow extends Component {
     if (changedCols.length > 0) {
       this.props
         .saveChanges(changedCols)
-        .then(success => {
-          if (success) {
-            //if the action has been successful update edited values locally
-            changedCols.forEach(cc => (this.originalRow[cc.column] = cc.value));
+        .then(response => {
+          if (response.success) {
+            if (response.record) {
+              //the promise can return the updated record
+              this.originalRow = response.record;
+            } else {
+              //if the promise doesn't return the record but
+              // the action has been successful update edited values locally
+              changedCols.forEach(
+                cc => (this.originalRow[cc.column] = cc.value)
+              );
+            }
           }
           this.setState({
-            success,
+            success: response.success ? response.success : false,
             actionInProgress: false,
             editMode: false,
             row: this.originalRow
@@ -92,13 +100,13 @@ class LogiDataRow extends Component {
     this.setState({ actionInProgress: true });
     this.props
       .deleteRecord()
-      .then(success => {
+      .then(response => {
         //if record successfully deleted we show Delete in action
         //and user can't do anything with that record. Parent app can decide to refresh/re-fetch data
         this.setState({
-          success: success,
+          success: response.success ? response.success : false,
           actionInProgress: false,
-          deleted: success
+          deleted: response.success
         });
       })
       .catch(e => {
@@ -143,7 +151,7 @@ class LogiDataRow extends Component {
             />
           </TableCell>
         ) : this.state.editMode || this.props.newRow ? (
-          <TableCell>
+          <TableCell padding={"checkbox"}>
             <CommitButton onExecute={() => this.updateRecord()} />
             <CancelButton
               onExecute={() => {
@@ -157,9 +165,9 @@ class LogiDataRow extends Component {
             />
           </TableCell>
         ) : this.props.allowEdit ||
-        this.props.allowDelete ||
-        this.props.allowAddNew ? (
-          <TableCell>
+          this.props.allowDelete ||
+          this.props.allowAddNew ? (
+          <TableCell padding={"checkbox"}>
             {this.props.allowEdit ? (
               <EditButton
                 onExecute={() => {
@@ -172,24 +180,26 @@ class LogiDataRow extends Component {
             ) : null}
           </TableCell>
         ) : null}
-        {columns.filter(c => !c.isHidden).map(c => (
-          <TableCell
-            key={`${c.accessor}${index}`}
-            component={index === 0 ? "th" : null}
-            scope={index === 0 ? "row" : null}
-            padding="checkbox"
-          >
-            <EditableTableCell
-              keyAccessor={this.props.keyAccessor}
-              dataRow={this.state.row}
-              columnName={c.accessor}
-              changeValue={value => this.changeValue(value, c.accessor)}
-              dataType={c.dataType}
-              readOnly={c.readOnly}
-              editMode={this.state.editMode || this.props.newRow}
-            />
-          </TableCell>
-        ))}
+        {columns
+          .filter(c => !c.isHidden)
+          .map(c => (
+            <TableCell
+              key={`${c.accessor}${index}`}
+              component={index === 0 ? "th" : null}
+              scope={index === 0 ? "row" : null}
+              padding="checkbox"
+            >
+              <EditableTableCell
+                keyAccessor={this.props.keyAccessor}
+                dataRow={this.state.row}
+                columnName={c.accessor}
+                changeValue={value => this.changeValue(value, c.accessor)}
+                dataType={c.dataType}
+                readOnly={c.readOnly}
+                editMode={this.state.editMode || this.props.newRow}
+              />
+            </TableCell>
+          ))}
       </TableRow>
     );
   }
