@@ -170,7 +170,7 @@ LogiDataTable.propTypes = {
         "Time",
         "Boolean"
       ]),
-      isReadOnly: PropTypes.bool,
+      readOnly: PropTypes.bool,
       isHidden: PropTypes.bool //if not available will be shown
     })
   ),
@@ -181,10 +181,12 @@ LogiDataTable.propTypes = {
   /** Obvs */
   allowAddNew: PropTypes.bool,
   /** LogiDataTable will call this function with the changedColumns {ColName, Value, sqlValue}
-   * and expects to get back a promise */
+   * and expects to get back a promise
+   * * {Success: True/False, Record: {optionally return the newly added record }*/
   saveChanges: PropTypes.func,
   /** LogiDataTable will call this function, sending it the key Value of the record to be deleted
-   * expects to receive back a promise resolving to true or false
+   * expects to receive back a promise resolving to
+   * * {Success: True/False, Record: {optionally return the newly added record }
    */
   deleteRecord: PropTypes.func,
   /** LogiDataTable will call this function with new columns {ColName, Value, sqlValue}
