@@ -9,7 +9,7 @@ const Root = () => (
   <Theme
     db={db}
     imports={imports}
-    hashRouter={false}
+    hashRouter={true}
     websocketUrl="ws://127.0.0.1:60505"
   />
 )

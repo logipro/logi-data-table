@@ -1,19 +1,23 @@
 ---
 name: Logi Data Table
+route: /
+order: 1
 ---
 
-import { Component } from "react";
 import Demo from "../demo/src/Demo";
 import { Playground, PropsTable } from "docz";
 import LogiDataTable from "../src/index";
-import EditableTableCell from "../src/EditableTableCell";
 
 # Logi Data Table
-
-<PropsTable of={LogiDataTable} />
 
 A material table with posibility of adding, removing and updating records
 
 <Playground>
-  <Demo />
+  <React.StrictMode>
+    <Demo />
+  </React.StrictMode>
 </Playground>
+
+# Properties
+
+<PropsTable of={LogiDataTable} />

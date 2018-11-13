@@ -21,9 +21,7 @@
     "docz:dev": "docz dev",
     "docz:build": "docz build"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "16.x",
     "@material-ui/core": "^3.x",
@@ -33,21 +31,21 @@
     "@date-io/date-fns": "0.x"
   },
   "devDependencies": {
-    "@material-ui/core": "^3.x",
+    "@date-io/date-fns": "0.x",
+    "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.x",
-    "date-fns": "^2.0.0-alpha.16",
+    "date-fns": "^2.0.0-alpha.25",
+    "docz": "^0.12.9",
     "material-ui-pickers": "^2.0.1",
     "nwb": "0.23.x",
-    "react": "^16.6.1",
-    "react-dom": "^16.6.1",
-    "docz": "^0.12.9",
-    "@date-io/date-fns": "0.x"
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
   },
-  "author": "",
-  "homepage": "",
+  "author": "LogiPro UK",
+  "homepage": "https://github.com/logipro/logi-data-table",
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/logipro/logi-data-table",
   "keywords": [
-    "react-component"
+    "react-component", "Material-UI", "Table", "DataTable"
   ]
 }

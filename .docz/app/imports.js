@@ -1,4 +1,4 @@
 export const imports = {
-  'docs/LogiDataTable.mdx': () =>
-    import(/* webpackPrefetch: true, webpackChunkName: "docs-logi-data-table" */ 'docs/LogiDataTable.mdx'),
+  'docz/LogiDataTable.mdx': () =>
+    import(/* webpackPrefetch: true, webpackChunkName: "docz-logi-data-table" */ 'docz/LogiDataTable.mdx'),
 }
